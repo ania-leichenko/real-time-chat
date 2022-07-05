@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  bws_postgres:
+    container_name: bws_postgres
+    image: postgres:14.1
+    restart: on-failure
+    ports:
+      - 7433:5432
+    networks:
+      - bws_backend_network
+    env_file:
+      - ../../.env/postgres.env
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=bws
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - bws_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  bws_postgres_data:
+    driver: local
+
+networks:
+  bws_backend_network:
+    driver: bridge
